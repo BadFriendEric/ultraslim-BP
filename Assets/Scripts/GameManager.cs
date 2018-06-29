@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
 	int[] solution = {0,0,0};
 	public static GameManager control;
 	public float money;
+    public float moneyAtStart;
 	public int currentStreak;
 	public int lastStreak;
 	public int topStreak;
@@ -55,9 +56,11 @@ public class GameManager : MonoBehaviour {
 		hideBeans ();
 		rollBeans ();
 		Load ();
-	}
-	// Update is called once per frame
-	void Update () {
+        moneyAtStart = money;
+        print("Money at start = " + moneyAtStart);
+    }
+    // Update is called once per frame
+    void Update () {
 		updateAllStats ();
 	}
 	void FixedUpdate(){
@@ -169,7 +172,7 @@ public class GameManager : MonoBehaviour {
 		}
 		return odds;
 	}
-	/*
+    /*
 	public int getSPM(){
 		
 		float newScorePerMinute = 123;
@@ -199,7 +202,7 @@ public class GameManager : MonoBehaviour {
 			initialTime = Time.time;
 			//money = moneyValue.getMoney ();  //its getting this every .5 seconds, i need a better way to tell the difference...
 		}
-		/*
+		
 		if (newScorePerMinute > scorePerMinute) {
 			scorePerMinute = newScorePerMinute;
 		}
@@ -212,8 +215,8 @@ public class GameManager : MonoBehaviour {
 			initialTime = Time.deltaTime;
 			counter = 0;
 		}
-
-		float newScorePerMinte = 123;
+        
+		//float newScorePerMinte = 123;
 		currentTime = Time.time%60;
 		newScorePerMinute = (money) / (currentTime);  //  $/m
 		newScorePerMinute = newScorePerMinute * 60;  //  scorePerminute = scorePerMinute * 60s
@@ -231,13 +234,40 @@ public class GameManager : MonoBehaviour {
 
 		return (int)newSpm;
 	}
-	*/
-
+    */
+    /*
 	public int getSPM(){
 		return currentSPM;
 	}
 	
-	public void calculateSPM(){
+
+    public int getSPM()
+    {
+        int spm;
+        float timeSinceStart = Time.time;
+        int moneySixtySecondsAgo = 0;
+        if (minimumUpdateTime)
+        {
+            moneySixtySecondsAgo = money;
+        }
+        int moneyDifference = money - moneyAtStart;
+        int moneyLastSixty = money - moneySixtySecondsAgo;
+        spm = moneyDifference / timeSinceStart;
+        return spm;
+    }
+    */
+
+    public float getSPM()
+    {
+        //print(moneyAtStart);
+        float moneyGain = money - moneyAtStart;
+        float timeSinceStart = Time.time;
+        float spm = (float)(Math.Round((moneyGain / timeSinceStart)*100f)/100f)*60;
+        print(moneyGain);
+        return spm;
+    }
+
+    public void calculateSPM(){
 		float newSpm = 0;
 		float moneyChange;
 		if(tenSecondCounter >= 10){
@@ -335,7 +365,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void updateAllStats(){
-		calculateSPM ();
+		//calculateSPM ();
 		updateSPM ();
 		updateOdds ();
 		updateTopStreak ();
@@ -382,7 +412,7 @@ public class GameManager : MonoBehaviour {
 
 		bf.Serialize (file, data);
 		file.Close ();//Takes serizalable class "file" and writes to our class "data"
-		print ("You Saved");
+		//print ("You Saved");
 	}
 
 	public void Load(){

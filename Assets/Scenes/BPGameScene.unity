@@ -635,7 +635,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 736fb338396823248a8140959bdfe916, type: 3}
     m_FontSize: 60
     m_FontStyle: 0
-    m_BestFit: 1
+    m_BestFit: 0
     m_MinSize: 6
     m_MaxSize: 80
     m_Alignment: 4
@@ -2536,6 +2536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   money: 0
+  moneyAtStart: 0
   currentStreak: 0
   lastStreak: 0
   topStreak: 0
