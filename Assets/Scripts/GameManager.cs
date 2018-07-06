@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour {
 	public int currentStreak;
 	public int lastStreak;
 	public int topStreak;
+	public int beanScore;
+	public float luck;
 
 	public float updateTime;
 	public bool minimumUpdateTime;
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject pinto;
 
 	public Text moneyText;
+	public Text moneyGainText;
 	public Text currentStreakText;
 	public Text topStreakText;
 	public Text lastStreakText;
@@ -56,6 +59,8 @@ public class GameManager : MonoBehaviour {
 		hideBeans ();
 		rollBeans ();
 		Load ();
+		luck = 50;
+		beanScore = 2;
         moneyAtStart = money;
         print("Money at start = " + moneyAtStart);
     }
@@ -162,6 +167,22 @@ public class GameManager : MonoBehaviour {
 		topStreak = top;
 	}
 
+	public int getBeanScore(){
+		return beanScore;
+	}
+
+	public void setBeanScore(int beanScore){
+		this.beanScore = beanScore;
+	}
+
+	public float getLuck(){
+		return luck;
+	}
+
+	public void setLuck(float luck){
+		this.luck = luck;
+	}
+
 	public float getOdds(){
 		float odds;
 		if (currentStreak <= 0) {
@@ -266,7 +287,7 @@ public class GameManager : MonoBehaviour {
         print(moneyGain);
         return spm;
     }
-
+	/*
     public void calculateSPM(){
 		float newSpm = 0;
 		float moneyChange;
@@ -286,7 +307,7 @@ public class GameManager : MonoBehaviour {
 	public void setSPM(){
 
 	}
-
+*/
 	public void showBeans(){
 		black.SetActive(true);
 		pinto.SetActive(true);
@@ -300,8 +321,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void correct(){
-		moneySoundWin.Play();
-
+		moneySoundWin.Play();  //#note: sound tech?
 		if (currentStreak <= 0) {
 			//negative streak stuff
 			currentStreak = 1;
@@ -315,8 +335,9 @@ public class GameManager : MonoBehaviour {
 		string winnerText = randomWinText();
 		WinLose.text = winnerText;				//set correct message
 		//ADD MONEY
-		int winProfit = (int)Mathf.Pow (2, currentStreak);  //eventually 2 is replaced by (leftBeanProfit + rightBeanProfit)
-		addMoney (winProfit);
+		int profit = calculateProfit(getBeanScore(), getStreak(), true);
+		addMoney (profit);
+		updateMoneyGainText (profit);
 		updateMoneyText ();
 	}
 
@@ -332,10 +353,27 @@ public class GameManager : MonoBehaviour {
 		string loserText = randomLoseText();
 		WinLose.text = loserText;
 		currentStreak = 0;
-		int lossProfit = (int)Mathf.Pow(2,0);  //eventually 2 is replaced by (leftBeanProfit + rightBeanProfit)
-		//print(lossProfit);
-		addMoney (lossProfit);
+		int profit = calculateProfit(getBeanScore(), getStreak(), false);
+		addMoney (profit);
+		updateMoneyGainText (profit);
 		updateMoneyText();
+	}
+
+	private int calculateProfit(int beanScore, int streak, bool win){
+		int profit = 0;
+		if (!win) {
+			profit = (int)Mathf.Pow (beanScore, 0);
+		} else if (win) {
+			profit = (int)Mathf.Pow (beanScore, streak);
+		} else {
+			profit = 0;
+			print ("Error: calculateProfit. improve your exception handling skills lol");
+		}
+		return profit;
+	}
+
+	private void updateMoneyGainText(int moneyGain){
+		moneyGainText.text = "+" + moneyGain.ToString();
 	}
 
 	private void updateMoneyText(){
@@ -408,6 +446,8 @@ public class GameManager : MonoBehaviour {
 		data.spm = getSPM ();
 		data.lastStreak = getLastStreak ();
 		data.topStreak = getTopStreak ();
+		data.luck = getLuck();
+		data.beanScore = getBeanScore();
 		//setMoney(data.coins);
 
 		bf.Serialize (file, data);
@@ -425,7 +465,7 @@ public class GameManager : MonoBehaviour {
 			setMoney(data.coins);
 			setLastStreak (data.lastStreak);
 			setTopStreak (data.topStreak);
-			setSPM ();
+			//setSPM ();  //? do we want this
 
 			print ("You loaded!");
 		}
@@ -470,5 +510,7 @@ class PlayerData {
 	public float spm;
 	public int lastStreak;
 	public int topStreak;
+	public float luck;
+	public int beanScore;
 	//float/int game time
 }
