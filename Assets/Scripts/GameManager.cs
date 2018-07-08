@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject black;
 	public GameObject pinto;
 
+	public Text luckText;
+	public Text beanScoreText;
 	public Text moneyText;
 	public Text moneyGainText;
 	public Text currentStreakText;
@@ -104,8 +106,19 @@ public class GameManager : MonoBehaviour {
 		guess [2] = blackOrPinto;
 		//print ("guess hands:" + guess[1]);
 		//print ("guess beans:" + guess[2]);
+
+		/*
+		ORIGINAL CODE FOR SETTING/CHECKING GUESS
 		checkGuess ();
 		rollBeans ();
+		*/
+
+		bool win = luckGuess (getLuck());
+		if (win) {
+			correct ();
+		} else {
+			incorrect();
+		}
 	}
 
 	public bool checkGuess(){
@@ -129,6 +142,15 @@ public class GameManager : MonoBehaviour {
 		//print ("solution hand: " + leftOrRight);
 		//print ("solution bean: " + blackOrPinto);
 
+	}
+
+	private bool luckGuess(float luck){
+		float solution = UnityEngine.Random.Range(0,100);
+		print (solution);
+		if (solution < luck) {
+			return true;
+		}
+		return false;
 	}
 
 	public float getMoney(){
@@ -175,12 +197,28 @@ public class GameManager : MonoBehaviour {
 		this.beanScore = beanScore;
 	}
 
+	public void beanScorePlusPlus(){
+		beanScore++; //my naming is godlike
+	}
+
+	public void beanScoreMinusMinus(){
+		beanScore--;
+	}
+		
 	public float getLuck(){
 		return luck;
 	}
 
 	public void setLuck(float luck){
 		this.luck = luck;
+	}
+
+	public void luckPlusPlus(){
+		luck++; //my naming is godlike
+	}
+
+	public void luckMinusMinus(){
+		luck--;
 	}
 
 	public float getOdds(){
@@ -284,7 +322,7 @@ public class GameManager : MonoBehaviour {
         float moneyGain = money - moneyAtStart;
         float timeSinceStart = Time.time;
         float spm = (float)(Math.Round((moneyGain / timeSinceStart)*100f)/100f)*60;
-        print(moneyGain);
+        //print(moneyGain);
         return spm;
     }
 	/*
@@ -304,8 +342,8 @@ public class GameManager : MonoBehaviour {
 		currentSPM = (int)newSpm;
 	}
 
-	public void setSPM(){
-
+	public void setSPM(float spm){
+		this.spm
 	}
 */
 	public void showBeans(){
@@ -402,6 +440,15 @@ public class GameManager : MonoBehaviour {
 		spmText.text = getSPM() + "\n$/min";
 	}
 
+	private void updateLuckText(){
+		luckText.text = "Luck: " + getLuck ().ToString();
+	}
+
+	private void upgradeBeanScoreText(){
+		beanScoreText.text = "Beans: " + getBeanScore ().ToString();
+
+	}
+
 	private void updateAllStats(){
 		//calculateSPM ();
 		updateSPM ();
@@ -410,6 +457,8 @@ public class GameManager : MonoBehaviour {
 		updateCurrentStreak ();
 		updateLastStreak ();
 		updateMoneyText ();
+		updateLuckText ();
+		upgradeBeanScoreText();
 		//save money
 	}
 
@@ -465,6 +514,8 @@ public class GameManager : MonoBehaviour {
 			setMoney(data.coins);
 			setLastStreak (data.lastStreak);
 			setTopStreak (data.topStreak);
+			setLuck (data.luck);
+			setBeanScore (data.beanScore);
 			//setSPM ();  //? do we want this
 
 			print ("You loaded!");
@@ -495,7 +546,13 @@ public class GameManager : MonoBehaviour {
 
 				data.coins = 0;
 				data.spm = 0;
+				data.beanScore = 2;
+				data.luck = 50;
+				data.lastStreak = 0;
+				data.topStreak = 0;
+				print("Cleared Stats");
 			}
+			Load();
 		}catch(Exception ex) {
 			Debug.LogException (ex);
 		}
