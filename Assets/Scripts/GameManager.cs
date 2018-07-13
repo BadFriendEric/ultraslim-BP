@@ -71,33 +71,33 @@ public class GameManager : MonoBehaviour {
 		updateAllStats ();
 	}
 	void FixedUpdate(){
-		Save ();
-	}
+        Save();
+    }
 
 
-	// On opening the game, saves data between scenes
-//	void Awake () {
-//		if (control == null) {
-//			DontDestroyOnLoad (gameObject);
-//			control = this;
-//		} else if (control != this) {
-//			Destroy (gameObject);
-//		}
-//	}
+    // On opening the game, saves data between scenes
+    //	void Awake () {
+    //		if (control == null) {
+    //			DontDestroyOnLoad (gameObject);
+    //			control = this;
+    //		} else if (control != this) {
+    //			Destroy (gameObject);
+    //		}
+    //	}
 
-//	void OnGUI(){
-//		//GUI.Label (new Rect(), "Money: " + money);
-//		if (GUI.Button (new Rect(50, 660, 300, 100), "Save")) {
-//			GameManager.control.Save ();
-//		}
-//
-//		if (GUI.Button  (new Rect(50, 800, 300, 100), "Load")) {
-//			GameManager.control.Load ();
-//		}
-//	}
+    //	void OnGUI(){
+    //		//GUI.Label (new Rect(), "Money: " + money);
+    //		if (GUI.Button (new Rect(50, 660, 300, 100), "Save")) {
+    //			GameManager.control.Save ();
+    //		}
+    //
+    //		if (GUI.Button  (new Rect(50, 800, 300, 100), "Load")) {
+    //			GameManager.control.Load ();
+    //		}
+    //	}
 
 
-	public void setGuessHands(int leftOrRight){
+    public void setGuessHands(int leftOrRight){
 		handSound.Play();
 		guess [1] = leftOrRight;
 	}
@@ -119,9 +119,9 @@ public class GameManager : MonoBehaviour {
 		} else {
 			incorrect();
 		}
-	}
+    }
 
-	public bool checkGuess(){
+    public bool checkGuess(){
 		if((guess[1] == solution[1] && guess[2] == solution[2]) || (guess[1] != solution[1] && guess[2] != solution[2])){
 			//print ("true");
 			correct();
@@ -512,6 +512,7 @@ public class GameManager : MonoBehaviour {
 			file.Close ();
 
 			setMoney(data.coins);
+            print(data.coins);
 			setLastStreak (data.lastStreak);
 			setTopStreak (data.topStreak);
 			setLuck (data.luck);
@@ -542,17 +543,19 @@ public class GameManager : MonoBehaviour {
 				BinaryFormatter bf = new BinaryFormatter ();
 				FileStream file = File.Open (Application.persistentDataPath + "/playertestsaveinfo.dat", FileMode.Open);
 				PlayerData data = (PlayerData)bf.Deserialize (file);
-				file.Close ();
 
 				data.coins = 0;
-				data.spm = 0;
+                print(data.coins);
+                data.spm = 0;
 				data.beanScore = 2;
 				data.luck = 50;
 				data.lastStreak = 0;
 				data.topStreak = 0;
 				print("Cleared Stats");
-			}
-			Load();
+                bf.Serialize(file, data);
+                file.Close();
+            }
+            Load();
 		}catch(Exception ex) {
 			Debug.LogException (ex);
 		}
