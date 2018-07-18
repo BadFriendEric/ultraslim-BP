@@ -20,7 +20,10 @@ public class Inventory : MonoBehaviour {
 
     public void add(Item item)
     {
-        items.Add(item);
+        if (items.Count <= inventorySize)
+        {
+            items.Add(item);
+        }
     }
     public void remove(Item item)
     {
