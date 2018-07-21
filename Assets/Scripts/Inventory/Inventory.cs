@@ -7,6 +7,7 @@ public class Inventory : MonoBehaviour {
     public List<Item> items = new List<Item>();
     public static Inventory inventoryInstance;
     public int inventorySize = 20;
+    public GameObject inventoryCanvas;
 
     private void Awake()
     {
@@ -28,5 +29,10 @@ public class Inventory : MonoBehaviour {
     public void remove(Item item)
     {
         items.Remove(item);
+    }
+
+    public void openCloseInv()
+    {
+        inventoryCanvas.SetActive(!inventoryCanvas.activeSelf);
     }
 }
