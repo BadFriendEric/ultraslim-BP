@@ -465,6 +465,7 @@ public class GameManager : MonoBehaviour {
     public void startGamblingGame(int bet)
     {
         setStreak(0);
+		subtractMoney (bet);
         hideBeans();
         WinLose.text = "";
         updateMoneyGainText(0);
