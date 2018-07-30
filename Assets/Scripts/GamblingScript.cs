@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+<<<<<<< HEAD
 using UnityEngine.UI;
+=======
+>>>>>>> 21ad46fd35c71d995246740717c110917a061ac1
 
 public class GamblingScript : MonoBehaviour {
 
     //[SerializeField]
     public GameManager gm;
 
+<<<<<<< HEAD
     public GameObject gambleMenu;
     public GameObject gambleWarning;
 
@@ -22,10 +26,16 @@ public class GamblingScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
         bet = 100;
+=======
+	// Use this for initialization
+	void Start () {
+		
+>>>>>>> 21ad46fd35c71d995246740717c110917a061ac1
 	}
 	
 	// Update is called once per frame
 	void Update () {
+<<<<<<< HEAD
         betTxt.text = "$" + bet.ToString();
         gameSummaryTxt.text = "In this game, the higher your streak, the more you make.  Your current bet will earn you the following prizes: \n" +
             "0 Streak: $"+ (bet*0) + "\n" +
@@ -35,10 +45,14 @@ public class GamblingScript : MonoBehaviour {
             "4 Streak: $" + (bet * 2) + "\n" +
             "5 Streak: $" + (bet * 2.5) + "\n" +
             "etc.";
+=======
+		
+>>>>>>> 21ad46fd35c71d995246740717c110917a061ac1
 	}
 
     public void gamblePressed()
     {
+<<<<<<< HEAD
         if (gm.getStreak() >= 1) {
             gambleWarning.SetActive(true);
         } else {
@@ -81,5 +95,17 @@ public class GamblingScript : MonoBehaviour {
     public void decreasePressed()
     {
         decreaseBet(100);
+=======
+        if (gm.getStreak() >= 1)
+        {
+
+        }
+        //openGambleMenu()
+    }
+
+    private void openGambleMenu()
+    {
+
+>>>>>>> 21ad46fd35c71d995246740717c110917a061ac1
     }
 }
