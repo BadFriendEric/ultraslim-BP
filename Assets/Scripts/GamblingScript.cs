@@ -20,9 +20,11 @@ public class GamblingScript : MonoBehaviour {
     public int bet;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         bet = 100;
-	}
+    }
+	// Use this for initialization
 	
 	// Update is called once per frame
 	void Update () {
@@ -35,6 +37,7 @@ public class GamblingScript : MonoBehaviour {
             "4 Streak: $" + (bet * 2) + "\n" +
             "5 Streak: $" + (bet * 2.5) + "\n" +
             "etc.";
+		
 	}
 
     public void gamblePressed()
