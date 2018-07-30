@@ -801,7 +801,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 90908347}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 643055866}
+        m_MethodName: increasePressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &90908347
@@ -2958,7 +2969,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &643055863
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3030,6 +3041,7 @@ MonoBehaviour:
   increaseBetBtn: {fileID: 90908346}
   decreaseBetBtn: {fileID: 706205045}
   placeBetBtn: {fileID: 1426569414}
+  bet: 0
 --- !u!1 &650301168
 GameObject:
   m_ObjectHideFlags: 0
@@ -3377,7 +3389,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 706205046}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 643055866}
+        m_MethodName: decreasePressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &706205046
@@ -4953,7 +4976,6 @@ GameObject:
   - component: {fileID: 1187403038}
   - component: {fileID: 1187403037}
   - component: {fileID: 1187403036}
-  - component: {fileID: 1187403035}
   m_Layer: 0
   m_Name: GambleBtn
   m_TagString: Untagged
@@ -4980,25 +5002,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 200}
   m_Pivot: {x: 0.5, y: 0}
---- !u!114 &1187403035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1187403033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38696d4732c81284fa0e11cb1bbd6151, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gm: {fileID: 1505463252}
-  gambleMenu: {fileID: 643055862}
-  gambleWarning: {fileID: 1476119019}
-  betTxt: {fileID: 0}
-  gameSummaryTxt: {fileID: 0}
-  increaseBetBtn: {fileID: 0}
-  decreaseBetBtn: {fileID: 0}
-  placeBetBtn: {fileID: 0}
 --- !u!114 &1187403036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5038,7 +5041,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1187403035}
+      - m_Target: {fileID: 643055866}
         m_MethodName: gamblePressed
         m_Mode: 1
         m_Arguments:
@@ -5769,7 +5772,6 @@ GameObject:
   - component: {fileID: 1275055191}
   - component: {fileID: 1275055190}
   - component: {fileID: 1275055189}
-  - component: {fileID: 1275055192}
   m_Layer: 0
   m_Name: InvCloseBtn
   m_TagString: Untagged
@@ -5835,7 +5837,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1275055192}
+      - m_Target: {fileID: 643055866}
         m_MethodName: openGambleMenu
         m_Mode: 1
         m_Arguments:
@@ -5881,25 +5883,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1275055187}
---- !u!114 &1275055192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1275055187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38696d4732c81284fa0e11cb1bbd6151, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gm: {fileID: 1505463252}
-  gambleMenu: {fileID: 643055862}
-  gambleWarning: {fileID: 1476119019}
-  betTxt: {fileID: 1321443182}
-  gameSummaryTxt: {fileID: 1576945070}
-  increaseBetBtn: {fileID: 90908346}
-  decreaseBetBtn: {fileID: 706205045}
-  placeBetBtn: {fileID: 1426569414}
 --- !u!1 &1285406562
 GameObject:
   m_ObjectHideFlags: 0
@@ -6533,7 +6516,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1426569415}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 643055866}
+        m_MethodName: placeBetPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1426569415

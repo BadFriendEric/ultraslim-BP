@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour {
 	public int topStreak;
 	public int beanScore;
 	public float luck;
+    private bool gambling;
+    private int bet;
+    private int prize;
 
 	public float updateTime;
 	public bool minimumUpdateTime;
@@ -63,6 +66,7 @@ public class GameManager : MonoBehaviour {
 		Load ();
 		luck = 50;
 		beanScore = 2;
+        gambling = false;
         moneyAtStart = money;
         print("Money at start = " + moneyAtStart);
     }
@@ -96,13 +100,15 @@ public class GameManager : MonoBehaviour {
     //		}
     //	}
 
-
+    
     public void setGuessHands(int leftOrRight){
 		handSound.Play();
 		guess [1] = leftOrRight;
 	}
 
+    
 	public void setGuessBeans(int blackOrPinto){
+
 		guess [2] = blackOrPinto;
 		//print ("guess hands:" + guess[1]);
 		//print ("guess beans:" + guess[2]);
@@ -113,12 +119,32 @@ public class GameManager : MonoBehaviour {
 		rollBeans ();
 		*/
 
-		bool win = luckGuess (getLuck());
-		if (win) {
-			correct ();
-		} else {
-			incorrect();
-		}
+        if (gambling)
+        {
+            bool win = luckGuess(getLuck());  //eventually make this a constant 50?
+            if (win)
+            {
+                correct();
+            }
+            else
+            {
+                incorrect();
+            }
+
+        }
+        else
+        {
+            bool win = luckGuess(getLuck());
+            if (win)
+            {
+                correct();
+            }
+            else
+            {
+                incorrect();
+            }
+
+        }
     }
 
     public bool checkGuess(){
@@ -173,7 +199,12 @@ public class GameManager : MonoBehaviour {
 		return currentStreak;
 	}
 
-	public int getLastStreak(){
+    public void setStreak(int streak)
+    {
+        currentStreak = streak;
+    }
+
+    public int getLastStreak(){
 		return lastStreak;
 	}
 
@@ -373,11 +404,21 @@ public class GameManager : MonoBehaviour {
 		string winnerText = randomWinText();
 		WinLose.text = winnerText;				//set correct message
 		//ADD MONEY
-		int profit = calculateProfit(getBeanScore(), getStreak(), true);
-		addMoney (profit);
-		updateMoneyGainText (profit);
-		updateMoneyText ();
-	}
+        if (gambling)
+        {
+            int prize = calculateGamblingProfit(getStreak(), true);
+            setPrize(prize);
+            updateMoneyGainText(prize);
+            print("GAMBLING: CORRECT - Prize: " + getPrize());
+        }
+        else
+        {
+            int profit = calculateProfit(getBeanScore(), getStreak(), true);
+            addMoney(profit);
+            updateMoneyGainText(profit);
+            updateMoneyText();
+        }
+    }
 
 	private void incorrect(){
 		moneySoundLose.Play();
@@ -390,8 +431,17 @@ public class GameManager : MonoBehaviour {
 		}
 		string loserText = randomLoseText();
 		WinLose.text = loserText;
-		currentStreak = 0;
-		int profit = calculateProfit(getBeanScore(), getStreak(), false);
+
+        if (gambling)
+        {
+            rewardPrize();
+            setStreak(0);
+            gambling = false;
+            print("GAMBLING: INCORRECT - Prize: " + getPrize());
+        }
+
+        setStreak(0);
+        int profit = calculateProfit(getBeanScore(), getStreak(), false);
 		addMoney (profit);
 		updateMoneyGainText (profit);
 		updateMoneyText();
@@ -410,7 +460,55 @@ public class GameManager : MonoBehaviour {
 		return profit;
 	}
 
-	private void updateMoneyGainText(int moneyGain){
+    // Gambling game //
+
+    public void startGamblingGame(int bet)
+    {
+        setStreak(0);
+        hideBeans();
+        WinLose.text = "";
+        updateMoneyGainText(0);
+        gambling = true;
+        setBet(bet);
+    }
+
+    private int calculateGamblingProfit(int streak, bool win)
+    {
+        int prize = streak*(getBet() / 2);
+
+        return prize;
+    }
+
+    private void rewardPrize()
+    {
+        //give them prize and maybe stuff
+        addMoney(getPrize());
+    }
+
+    private void setBet(int bet)
+    {
+        this.bet = bet;
+    }
+
+    private int getBet()
+    {
+        return bet;
+    }
+
+    private void setPrize(int prize)
+    {
+        this.prize = prize;
+    }
+
+    private int getPrize()
+    {
+        return prize;
+    }
+
+    // End Gambling game //
+
+
+    private void updateMoneyGainText(int moneyGain){
 		moneyGainText.text = "+" + moneyGain.ToString();
 	}
 
@@ -497,6 +595,10 @@ public class GameManager : MonoBehaviour {
 		data.topStreak = getTopStreak ();
 		data.luck = getLuck();
 		data.beanScore = getBeanScore();
+        data.bet = getBet();
+        data.gambling = this.gambling;
+        data.prize = getPrize();
+        data.streak = getStreak();
 		//setMoney(data.coins);
 
 		bf.Serialize (file, data);
@@ -517,6 +619,10 @@ public class GameManager : MonoBehaviour {
 			setTopStreak (data.topStreak);
 			setLuck (data.luck);
 			setBeanScore (data.beanScore);
+            setStreak(data.streak);
+            setBet(data.bet);
+            setPrize(data.prize);
+            this.gambling = data.gambling;
 			//setSPM ();  //? do we want this
 
 			print ("You loaded!");
@@ -572,5 +678,9 @@ class PlayerData {
 	public int topStreak;
 	public float luck;
 	public int beanScore;
+    public bool gambling;
+    public int prize;
+    public int bet;
+    public int streak;
 	//float/int game time
 }

@@ -85,4 +85,15 @@ public class GamblingScript : MonoBehaviour {
     {
         decreaseBet(100);
     }
+
+    private void startGamblingGame(int bet)
+    {
+        gm.startGamblingGame(bet);
+    }
+
+    public void placeBetPressed()
+    {
+        openGambleMenu();
+        startGamblingGame(bet);
+    }
 }
