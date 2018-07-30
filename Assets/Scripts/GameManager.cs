@@ -483,6 +483,7 @@ public class GameManager : MonoBehaviour {
     {
         //give them prize and maybe stuff
         addMoney(getPrize());
+		setPrize (0);
     }
 
     private void setBet(int bet)
