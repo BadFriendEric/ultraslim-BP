@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour {
 	public Text oddsText;
 	public Text spmText;
 	public Text WinLose;
+    public Text animationStreakText;
+    public Animator an;
 
 	public AudioSource beanSound;
 	public AudioSource handSound;
@@ -56,9 +58,6 @@ public class GameManager : MonoBehaviour {
 	//public AudioSource handSound;
 
 
-
-
-
 	// Use this for initialization
 	void Start () {
 		hideBeans ();
@@ -67,7 +66,9 @@ public class GameManager : MonoBehaviour {
 		luck = 50;
 		beanScore = 2;
         gambling = false;
+        animationStreakText.enabled = false;
         moneyAtStart = money;
+        an = animationStreakText.GetComponent<Animator>();
         print("Money at start = " + moneyAtStart);
     }
     // Update is called once per frame
@@ -400,10 +401,19 @@ public class GameManager : MonoBehaviour {
 		if (currentStreak >= topStreak) {
 			topStreak = currentStreak;
 		}
-		//WIN TEXT
-		string winnerText = randomWinText();
-		WinLose.text = winnerText;				//set correct message
-		//ADD MONEY
+        //WIN TEXT
+        //string winnerText = randomWinText();
+        //WinLose.text = winnerText;				//set correct message
+
+        
+        //streakAnimation.Play();
+        /*  WIP!!!
+        animationStreakText.SetActive(true);
+        streakAnimation.Play();
+        animationStreakText.SetActive(false);
+        */
+
+        //ADD MONEY
         if (gambling)
         {
             int prize = calculateGamblingProfit(getStreak(), true);
@@ -418,9 +428,18 @@ public class GameManager : MonoBehaviour {
             updateMoneyGainText(profit);
             updateMoneyText();
         }
+
+        WinLose.text = "Correct!";
+        animationStreakText.text = currentStreakText.text;
+        animationStreakText.enabled = true;
+        an.enabled = true;
+        an.StopPlayback();
+        //an.Play("ShakeStreak");
+        //Invoke("hideStreakPopupText", 2f);
+
     }
 
-	private void incorrect(){
+    private void incorrect(){
 		moneySoundLose.Play();
 	
 		lastStreak = currentStreak;
@@ -429,8 +448,6 @@ public class GameManager : MonoBehaviour {
 		} else if (currentStreak < 0) {
 
 		}
-		string loserText = randomLoseText();
-		WinLose.text = loserText;
 
         if (gambling)
         {
@@ -445,9 +462,15 @@ public class GameManager : MonoBehaviour {
 		addMoney (profit);
 		updateMoneyGainText (profit);
 		updateMoneyText();
-	}
 
-	private int calculateProfit(int beanScore, int streak, bool win){
+        //string loserText = randomLoseText();
+        //WinLose.text = loserText;
+        WinLose.text = "Incorrect!";
+        hideStreakPopupText();
+
+    }
+
+    private int calculateProfit(int beanScore, int streak, bool win){
 		int profit = 0;
 		if (!win) {
 			profit = (int)Mathf.Pow (beanScore, 0);
@@ -569,6 +592,11 @@ public class GameManager : MonoBehaviour {
 		string[] loseTexts = { "Not Today!", "Incorrect", "C'mon try again!", "Next one's a winner!" };
 		return loseTexts [UnityEngine.Random.Range (0, loseTexts.Length)];
 	}
+
+    private void hideStreakPopupText() {
+        animationStreakText.enabled = false;
+        an.enabled = false;
+    }
 
 //	public void NewSave(){
 //		BinaryFormatter bf = new BinaryFormatter ();
