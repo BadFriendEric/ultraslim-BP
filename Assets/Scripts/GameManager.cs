@@ -46,8 +46,8 @@ public class GameManager : MonoBehaviour {
 	public Text oddsText;
 	public Text spmText;
 	public Text WinLose;
-    public Text animationStreakText;
-    public Animator an;
+    //public Text animationStreakText;
+    //public Animator an;
 
 	public AudioSource beanSound;
 	public AudioSource handSound;
@@ -66,9 +66,9 @@ public class GameManager : MonoBehaviour {
 		luck = 50;
 		beanScore = 2;
         gambling = false;
-        animationStreakText.enabled = false;
+        //animationStreakText.enabled = false;
         moneyAtStart = money;
-        an = animationStreakText.GetComponent<Animator>();
+        //an = animationStreakText.GetComponent<Animator>();
         print("Money at start = " + moneyAtStart);
     }
     // Update is called once per frame
@@ -430,10 +430,10 @@ public class GameManager : MonoBehaviour {
         }
 
         WinLose.text = "Correct!";
-        animationStreakText.text = currentStreakText.text;
-        animationStreakText.enabled = true;
-        an.enabled = true;
-        an.StopPlayback();
+        //animationStreakText.text = currentStreak.ToString();
+        //animationStreakText.enabled = true;
+        //an.enabled = true;
+        //an.StopPlayback();
         //an.Play("ShakeStreak");
         //Invoke("hideStreakPopupText", 2f);
 
@@ -443,9 +443,9 @@ public class GameManager : MonoBehaviour {
 		moneySoundLose.Play();
 	
 		lastStreak = currentStreak;
-		if (currentStreak >= 0) {
-			currentStreak--;
-		} else if (currentStreak < 0) {
+		if (currentStreak > 0) {
+			currentStreak = 0;
+		} else if (currentStreak <= 0) {
 
 		}
 
@@ -467,7 +467,6 @@ public class GameManager : MonoBehaviour {
         //WinLose.text = loserText;
         WinLose.text = "Incorrect!";
         hideStreakPopupText();
-
     }
 
     private int calculateProfit(int beanScore, int streak, bool win){
@@ -594,8 +593,8 @@ public class GameManager : MonoBehaviour {
 	}
 
     private void hideStreakPopupText() {
-        animationStreakText.enabled = false;
-        an.enabled = false;
+        //animationStreakText.enabled = false;
+        //an.enabled = false;
     }
 
 //	public void NewSave(){
